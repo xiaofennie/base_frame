@@ -1,0 +1,119 @@
+@import '~view-design/src/styles/index.less';
+@background-dark-color:#202327;
+@main-yellow: #d89959;
+#app, body, html {
+    height: 100%;
+}
+body{
+    background-color: @background-color-base;
+    height: 100vh;
+    overflow: auto;
+}
+// 系统管理-->中心管理中编辑状态下拉框被遮蔽
+.ivu-table-cell {
+    overflow: visible
+}
+
+.common-left {
+    margin-left: 10px;
+}
+.common-top {
+    margin-top: 10px;
+}
+
+.common-header {
+    padding: 0;
+    background-color: @background-dark-color;
+    line-height: 60px;
+    width: 100%;
+
+    @media screen and (max-width: @screen-md){
+        height: 50px;
+        line-height: 45px;
+    }
+}
+
+.common-cursor {
+    cursor: pointer
+}
+.common-cursor:hover {
+    transform: scale(1.1);
+}
+.common-table-board {
+    .ivu-table th{
+        background-color: #fdf8ef;
+    }
+    .ivu-table-fixed-right-header {
+        // background-color: #ddf1ff;
+        background-color: #fdf8ef;
+    }
+    .ivu-table-row-hover td {
+        background-color: #F8F8F9;
+    }
+}
+
+.common-horizontal-menu {
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    .ivu-menu {
+        height: 100%;
+        background-color: @background-dark-color;
+    }
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item{
+        background-color: @background-dark-color;
+        color: #898da0;
+    }
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover, .ivu-menu-light.ivu-menu-horizontal .ivu-menu-submenu:hover {
+        color: #f6ca9d;
+        border-bottom: 2px solid @main-yellow;
+    }
+}
+.common-vertical-menu {
+    .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active, .ivu-menu-light.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-light.ivu-menu-vertical .ivu-menu-submenu:hover {
+        color: @main-yellow;
+        background-color: #FFFAF0;
+    }
+    .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+        color: @main-yellow;
+        background: #FFFAF0;
+    }
+    .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):after {
+        background: @main-yellow;
+    }
+}
+
+.common-setting-cell {
+    .ivu-cell-selected {
+        color: @main-yellow;
+        background: #fffcf5;
+    }
+    .ivu-cell-selected:hover {
+        background: #f8f8f8;
+    }
+}
+
+.dicom-area-cell {
+    .ivu-cell {
+        color: @main-yellow;
+    }
+    .ivu-cell-item {
+        text-align: center;
+    }
+}
+
+.common-area-form {
+    .ivu-form-item-label {
+        color: #bebcbc;
+    }
+    .ivu-checkbox-group {
+        color: #bebcbc;
+    }
+    .ivu-radio-group {
+        color: #bebcbc;
+    }
+
+    &-desc {
+        color: #bebcbc;
+    }
+}

@@ -1,0 +1,100 @@
+.viewDicom {
+    flex: 1;
+    padding: 0 16px;
+    overflow: hidden;
+    position: relative;
+
+    &-content {
+        position: absolute;
+        width: calc(~"100% - 32px");
+        height: 100%;
+        display: flex;
+        align-items: stretch;
+
+        &-left {
+            flex: 0 0 300px;
+            margin-right: 10px;
+            overflow: auto;
+        }
+    
+        &-main {
+            flex: 1;
+            height: 100%;
+            width: 100%;
+            display: inline-flex;
+            align-items: stretch;
+            position: relative;
+            overflow: hidden;
+            padding: 5px;
+            background: #afaeae;
+    
+            &-list {
+                flex: 0 0 200px;
+                background-color: #474444;
+                overflow-y: auto;
+    
+                &-menu {
+                    width: 100% !important;
+                }
+            }
+            &-listCollapse {
+                display: none;
+            }
+            &-image {
+                position: relative;
+                flex: 1;
+                &-dicom {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+                &-info {
+                    position: absolute;
+                    left: 10px;
+                    z-index: 999;
+                    font-size: 20px;
+                    color: #F1F100;
+                    
+
+                    // span {
+                        
+                    // }
+                }
+                
+                &-menuControll {
+                    position: absolute;
+                    top: calc(~"50% - 50px");
+                    cursor: pointer;
+                    background-color: #474444;
+                    height: 100px;
+                    width: 12px;
+                    z-index: 999;
+    
+                    &-icon {
+                        line-height: 100px;
+                        color: #CF9860;
+                    }
+    
+                }
+            }
+    
+            &-wait {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: #000000;
+                opacity: 0.6;
+                text-align: center;
+                .icon {
+                    position: relative;
+                    top: 50%;
+                    margin-top: -20px;
+                }
+            }
+        }
+    }
+}

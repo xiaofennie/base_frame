@@ -13,20 +13,13 @@ export default {
                     icon: '',
                     auth: ''
                 },
-                {
-                    name: 'RoleManage',
-                    path: `${pre}role`,
-                    title: '角色管理',
-                    icon: '',
-                    auth: ''
-                },
-                {
-                    name: 'DataManage',
-                    path: `${pre}data`,
-                    title: '数据管理',
-                    icon: '',
-                    auth: ''
-                }
+                // {
+                //     name: 'RoleManage',
+                //     path: `${pre}role`,
+                //     title: '角色管理',
+                //     icon: '',
+                //     auth: ''
+                // }
             ]
         }
     ]

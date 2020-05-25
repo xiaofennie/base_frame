@@ -18,7 +18,7 @@
                         </Tabs>
                     </Col>
                 </Row>
-                <upload v-if="currentType === 'image'" :analyse="analyse" :upload="upload"></upload>
+                <!-- <upload v-if="currentType === 'image'" :analyse="analyse" :upload="upload"></upload> -->
                 <list v-if="currentType === 'list'"></list>
             </Col>
         </Row>
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import upload from '#/upload'
+// import upload from '#/upload'
 import list from './list'
 export default {
     components: {
-        upload,
+        // upload,
         list
     },
     data () {

@@ -47,22 +47,6 @@ export default  {
                 ...commonMeta
             },
             component: () => import('~/auth/role/edit')
-        },
-        {
-            path: 'data',
-            name: `${pre}data`,
-            meta: {
-                ...commonMeta
-            },
-            component: () => import('~/auth/data/index')
-        },
-        {
-            path: 'data/edit',
-            name: `${pre}data-edit`,
-            meta: {
-                ...commonMeta
-            },
-            component: () => import('~/auth/data/edit')
-        },
+        }
     ]
 }

@@ -2,23 +2,16 @@
     <Form ref="filterForm" :model="filterForm" :label-width="80" label-colon>
         <Row>
             <Col v-bind="grid">
-                <FormItem label="课题名称" prop="name">
+                <FormItem label="中心名称" prop="name">
                     <Input v-model="filterForm.name" />
                 </FormItem>
             </Col>
             <Col v-bind="grid" >
-                <FormItem label="中心名称" prop="center_id">
-                     <Select v-model="filterForm.center_id">
-                        <Option v-for="item in centers" :key="item.id" :value="item.id">{{item.name}}</Option>
-                    </Select>
-                </FormItem>
-            </Col>
-            <Col v-bind="grid" >
                 <FormItem label="责任人" prop="master_id">
-                     <user-select
-                            :multiple="false" 
-                            v-model="filterForm.master_id">
-                        </user-select>
+                    <user-select
+                        :multiple="false" 
+                        v-model="filterForm.master_id">
+                    </user-select>
                 </FormItem>
             </Col>
             <Col v-bind="grid" >
@@ -33,9 +26,6 @@
 
 <script>
 export default {
-    props: [
-        'centers'
-    ],
     data () {
         return {
             grid: {

@@ -6,7 +6,6 @@ import { router } from './router'
 import store from '@/store'
 import utils from './utils'
 import mixins from './mixins'
-import { ImageTool } from '#/dicom/core'
 
 
 // 前端组件框架
@@ -24,7 +23,6 @@ import _ from 'lodash'
 
 Vue.config.productionTip = false
 Vue.prototype._ = _
-Vue.prototype.ImageTool = ImageTool
 
 Vue.prototype.$utils = utils
 Vue.mixin(mixins)
@@ -40,8 +38,6 @@ new Vue({
     },
     watch: {
         async '$route' (to, from) {
-            // console.log(to)
-            // debugger
             // // 初始化所有顶部菜单  
             // this.$store.dispatch('menu/setHeader')
             let activeSiders = {}

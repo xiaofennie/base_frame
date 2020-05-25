@@ -7,7 +7,6 @@
                     <CellGroup class="common-setting-cell" @on-click="handleSelect">
                         <Cell title="个人设置" label="用户基本信息设置" name="info" :selected="currentType === 'info'" />
                         <Cell title="角色设置" label="用户角色管理" name="role" :selected="currentType === 'role'" />
-                        <Cell title="数据权限设置" label="用户数据权限管理" name="data" :selected="currentType === 'data'" />
                     </CellGroup>
                 </Card>
             </Col>
@@ -23,7 +22,6 @@
                         </Col>
                         <edit-info v-if="currentType === 'info'" :departments="departments"></edit-info>
                         <edit-role v-if="currentType === 'role'" :roles="roles" :types="types"></edit-role>
-                        <edit-data v-if="currentType === 'data'" :data_role="data_role"></edit-data>
                     </Row>
                </Card>
             </Col>
@@ -34,12 +32,10 @@
 <script>
 import editInfo from './edit-info'
 import editRole from './edit-role'
-import editData from './edit-data'
 export default {
     components: {
         editInfo,
         editRole,
-        editData
     },
     data () {
         return {

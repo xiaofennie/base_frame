@@ -11,38 +11,17 @@ export default [
     //     title: '首页'
     // },
     {
-        name: 'SeriesManage',
+        name: 'UserRole',
         showSider: true,
-        path: '/series',
-        icon: 'md-paper',
-        title: '影像管理'
-    },
-    {
-        name: 'ProjectManage',
-        showSider: true,
-        path: '/project',
-        icon: 'md-paper',
-        title: '课题管理'
-    },
-    {
-        name: 'IntelligentIdentify',
-        showSider: true,
-        path: '/identify',
-        icon: 'logo-octocat',
-        title: '智能识别'
+        path: '/auth',
+        icon: 'ios-people',
+        title: '用户管理'
     },
     {
         name: 'SystemSetting',
         showSider: true,
         path: '/system',
         icon: 'md-settings',
-        title: '系统管理'
-    },
-    {
-        name: 'UserRole',
-        showSider: true,
-        path: '/auth',
-        icon: 'ios-people',
-        title: '用户管理'
+        title: '字典管理'
     }
 ]

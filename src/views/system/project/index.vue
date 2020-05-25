@@ -1,7 +1,7 @@
 <template>
     <div class="tableView common-top">
         <Card class="tableView-filter" :bordered="false" dis-hover>
-            <filter-form :centers="centers" @on-submit="handleFilter" @on-reset="handleReset"></filter-form>
+            <filter-form :users="users" @on-submit="handleFilter" @on-reset="handleReset"></filter-form>
         </Card>
         <div class="tableView-content common-top">
             <div class="tableView-content-main">
@@ -14,19 +14,40 @@
                     :columns="columns"
                     :data="tableData"
                     :loading="loading">
-                    <template slot-scope="{ row }" slot="operate">
-                        <a @click="handleEdit(row)">编辑</a>
-                        <Divider type="vertical"></Divider>
-                        <a @click="handleViewMember(row)">查看成员</a>
+                    <template slot-scope="{ row, index }" slot="name">
+                        <Input type="text" v-model="editForm.name" v-if="editIndex === index" />
+                        <span v-else>{{ row.name }}</span>
+                    </template>
+                    <template slot-scope="{ row, index }" slot="master">
+                        <user-select
+                            v-if="editIndex === index"
+                            :multiple="false" 
+                            :treeOptions="treeOptions"
+                            v-model="editForm.master_id">
+                        </user-select>
+                        <span v-else>{{ row.master.nickname }}</span>
+                    </template>
+                    <template slot-scope="{ row }" slot="createdAt">
+                        <span>{{ row.created_at }}</span>
+                    </template>
+                    <template slot-scope="{ row, index }" slot="operate">
+                        <div v-if="editIndex === index">
+                            <a @click="handleSave">保存</a>
+                            <Divider type="vertical"></Divider>
+                            <a @click="getTableData()">取消</a>
+                        </div>
+                        <div v-else>
+                            <a @click="handleEdit(row, index)">编辑</a>
+                        </div>
                     </template>
                 </Table>
                 <Button 
-                    :disabled="addState" 
-                    class="tableView-content-main-button common-top" 
+                    :disabled="addState"
                     icon="md-add" 
+                    class="tableView-content-main-button common-top" 
                     long 
                     type="dashed" 
-                    @click="handleEdit()">创建课题</Button>
+                    @click="handleAdd">创建中心</Button>
                 <Page
                     class="tableView-content-main-page"
                     size="small"
@@ -45,20 +66,19 @@
 import filterForm from './filter-list'
 export default {
     components: {
-        filterForm,
+        filterForm
     },
     data () {
         return {
             loading: true,
-            centers: [],
+            users: [],
+            editIndex: -1,
             editForm: {},
             addState: false,
             columns: [
-                { title: '课题名称', key: 'name', minWidth: 120 },
-                { title: '课题标题', key: 'title', minWidth: 120 },
-                { title: '所属中心', key: 'center_desc', minWidth: 120 },
-                { title: '责任人', key: 'master_nickname', minWidth: 120 },
-                { title: '创建时间', key: 'created_at', minWidth: 120 },
+                { title: '中心名称', slot: 'name', minWidth: 120 },
+                { title: '责任人', slot: 'master', minWidth: 120 },
+                { title: '创建时间', slot: 'createdAt', minWidth: 120 },
                 { title: '操作', slot: 'operate', align: 'center', minWidth: 140 }
             ],
             tableData: [],
@@ -68,14 +88,18 @@ export default {
                 total: 0
             },
             filterDate: {},
-            tableHeight: 0
+            tableHeight: 0,
+            // 将userselect的option提前传入，避免点击编辑时会有一瞬间的找不到
+            treeOptions: []
         }
     },
     async mounted () {
-       let [centerRes] = await Promise.all([
-            this.$get('systemSelect', { target: 'center' }),
+        let [ userRes, userOptionRes ] = await Promise.all([
+            this.$get('systemSelect', { target: 'user' }),
+            await this.$get('getProjectUsers')
         ])
-        this.centers = centerRes.data.data
+        this.users = userRes.data.data
+        this.treeOptions = userOptionRes.data.data
         this.getTableData()
     },
     methods: {
@@ -85,14 +109,13 @@ export default {
                 pagesize: this.page.pagesize,
                 ...this.filterDate
             }
-            this.loading = true
-            let res = await this.$get('projectList', params)
+            let res = await this.$get('centerList', params)
             this.tableData = res.data.data.map(attr => {
                 attr.created_at = this.$utils.tool.formatDate(attr.created_at)
-                attr.master_nickname = attr.master.nickname
                 return attr
             })
             this.loading = false
+            this.editIndex = -1
             this.addState = false
             // 记录页数
             this.page.pageno = parseInt(res.data.ext.pageno)
@@ -114,40 +137,30 @@ export default {
             this.filterDate = {}
             this.getTableData()
         },
-        async handleViewMember (row) {
-            let members = ''
-            let res = await this.$get('projectUsersList', {
-                project_id: row.id
-            })
-            res.data.data.forEach(item => {
-                members = members + item.user.nickname + '；' + '\xa0'
-            })
-            this.$Modal.info({
-                title: '课题成员：',
-                content: `${members}`
-            })
+        handleEdit (row, index) {
+            this.editForm = Object.assign({}, row)
+            this.editIndex = index
         },
-        handleEdit (row) {
-            let params = {}
-            if (row) {
-                params = {
-                    id: row.id,
-                    name: row.name,
-                    title: row.title,
-                    center_id: row.center_id,
-                    master_id: row.master_id
-                }
+        async handleSave () {
+            // 根据有没有id判断是新增还是修改
+            if (!this.editForm.name || !this.editForm.master_id) {
+                this.$Message.warning('请输入完整信息！')
+                return
             }
-            this.$router.push({
-                path: '/system/project/edit',
-                query: {
-                    preUrl: this.$route.path,
-                    info: JSON.stringify(params)
-                }
-            })
+            if (this.editForm.id) {
+                await this.$post('editCenter', this.editForm, { id: this.editForm.id })
+                this.getTableData()
+                
+            } else {
+                await this.$post('addCenter', this.editForm)
+                this.getTableData()
+            }
         },
         handleAdd () {
-
+            this.addState= true
+            this.editForm = {}
+            this.editIndex = this.tableData.length
+            this.tableData.push({})
         }
     }
 }

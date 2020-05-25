@@ -1,9 +1,6 @@
 import workplace from './modules/workplace'
-import series from './modules/series'
-import project from './modules/project'
 import auth from './modules/auth'
 import system from './modules/system'
-import identify from './modules/identify'
 // 没有外部框架
 const frameOut = [
     {
@@ -14,15 +11,6 @@ const frameOut = [
         },
         component: () => import('~/login/login')
     },
-    // 标注
-    {
-        path: '/dicom',
-        name: 'dicom',
-        meta: {
-            auth: true
-        },
-        component: () => import('#/dicom/label')
-    }
 ]
 // 框架内的路由
 const frameIn = [
@@ -31,11 +19,8 @@ const frameIn = [
         redirect: { name: 'login' },
     },
     // workplace, // workplace第一版不做
-    series,
     auth,
     system,
-    project,
-    identify
 ]
 /**
  * meta中的内容
